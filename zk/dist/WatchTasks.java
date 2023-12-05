@@ -32,6 +32,7 @@ public class WatchTasks implements Watcher {
 
 				String next = GetNextWorker();
 				if(next == null){
+					Helper.print("No available workers");
 					return;
 				}
 				WorkerInfo wi  = new WorkerInfo();
