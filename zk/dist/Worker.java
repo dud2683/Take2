@@ -26,6 +26,10 @@ public class Worker implements Watcher{
 
 	@Override
 	public void process(WatchedEvent ev) {
+
+		Helper.print("[Worker got a message]");
+		Helper.print(ev.toString());
+
 		try{
 			zk.addWatch(path, this, AddWatchMode.PERSISTENT);
 		}
