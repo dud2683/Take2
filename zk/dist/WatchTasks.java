@@ -26,7 +26,7 @@ public class WatchTasks implements Watcher {
 				!ev.getPath().contains("result") &&
 				!ev.getPath().contains("working"))
 			{
-				Helper.print("[Manger Task watcher]");
+				Helper.print("[Manger Task watcher] Node created:");
 				Helper.print(ev.toString());
 
 				String next = GetNextWorker();
