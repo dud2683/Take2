@@ -33,6 +33,9 @@ public class Worker implements Watcher{
 		try{
 			if(ev.getType() == Event.EventType.NodeDataChanged){
 				WorkerInfo wi = (WorkerInfo) Helper.fromBytes(zk.getData(path, false, null));
+				if(wi == null){
+					return;
+				}
 				if(wi.status == WorkerInfo.Status.Idle){
 					return;
 				}
