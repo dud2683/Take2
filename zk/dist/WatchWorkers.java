@@ -16,8 +16,7 @@ public class WatchWorkers implements Watcher {
 
 	@Override
 	public void process(WatchedEvent ev) {
-		Helper.print("[Manger Worker watcher]");
-		Helper.print(ev.toString());
+
 
 
 		try{
@@ -27,7 +26,11 @@ public class WatchWorkers implements Watcher {
 			if(		(ev.getType() == Event.EventType.NodeCreated ||
 					ev.getType() == Event.EventType.NodeDataChanged)
 					&& ev.getPath().contains("/_w")
-			){
+			)
+			{
+				Helper.print("[Manger Worker watcher]");
+				Helper.print(ev.toString());
+
 				WorkerInfo wi = (WorkerInfo) Helper.fromBytes(zk.getData(ev.getPath(), false, null));
 				String next = GetNextTask();
 				if(next == null){

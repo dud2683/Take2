@@ -16,8 +16,7 @@ public class WatchTasks implements Watcher {
 
 	@Override
 	public void process(WatchedEvent ev) {
-		Helper.print("[Manger Task watcher]");
-		Helper.print(ev.toString());
+
 		try{
 			zk.addWatch("/dist23/tasks", this, AddWatchMode.PERSISTENT_RECURSIVE);
 		} catch(Exception e){Helper.error(e);}
@@ -27,6 +26,9 @@ public class WatchTasks implements Watcher {
 				!ev.getPath().contains("result") &&
 				!ev.getPath().contains("working"))
 			{
+				Helper.print("[Manger Task watcher]");
+				Helper.print(ev.toString());
+
 				String next = GetNextWorker();
 				if(next == null){
 					return;
@@ -39,6 +41,9 @@ public class WatchTasks implements Watcher {
 				zk.setData(next, Helper.toBytes(wi), -1);
 			}
 			else if(ev.getType() == Event.EventType.NodeDataChanged){
+				Helper.print("[Manger Task watcher]");
+				Helper.print(ev.toString());
+				
 				Object o = Helper.fromBytes(zk.getData(ev.getPath(), false, null));
 				if(o instanceof TaskInfo){
 					taskBanList.add(ev.getPath());

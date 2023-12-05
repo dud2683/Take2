@@ -29,8 +29,7 @@ public class Worker implements Watcher{
 	@Override
 	public void process(WatchedEvent ev) {
 
-		Helper.print("[Worker got a message]");
-		Helper.print(ev.toString());
+
 
 		try{
 			zk.addWatch(path, this, AddWatchMode.PERSISTENT);
@@ -38,13 +37,18 @@ public class Worker implements Watcher{
 		catch (Exception e){Helper.error(e);}
 		try{
 			if(ev.getType() == Event.EventType.NodeDataChanged){
+				Helper.print("[Worker got a message]");
+				Helper.print(ev.toString());
 				WorkerInfo wi = (WorkerInfo) Helper.fromBytes(zk.getData(path, false, null));
+				Helper.printWorker(wi);
 				if(wi == null){
 					return;
 				}
+
 				if(wi.status == WorkerInfo.Status.Idle){
 					return;
 				}
+
 				DistTask dt = (DistTask) Helper.fromBytes(zk.getData(wi.assigned, false, null));
 
 				Runnable task = () -> {

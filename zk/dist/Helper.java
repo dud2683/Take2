@@ -46,4 +46,14 @@ public class Helper {
 		return ret;
 	}
 
+	public static void printWorker(WorkerInfo wi){
+		print("Printing worker data");
+		if(wi == null){
+			print("Null");
+			return;
+		}
+		print(wi.assigned);
+		print(wi.status);
+
+	}
 }
