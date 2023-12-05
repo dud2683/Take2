@@ -56,16 +56,13 @@ public class WatchTasks implements Watcher {
 
 	public String GetNextWorker(){
 		try {
-			Helper.print("Choosing next worker");
+
 			List<String> children = zk.getChildren("/dist23/workers", false);
 			for(String child : children){
 				String path = "/dist23/workers/" + child;
-
 				WorkerInfo wi = (WorkerInfo) Helper.fromBytes(zk.getData(path, false, null));
-				Helper.printWorker(wi);
-				
+
 				if(wi.status == WorkerInfo.Status.Idle){
-					Helper.print(path);
 					return path;
 				}
 			}
