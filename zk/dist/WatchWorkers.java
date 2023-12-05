@@ -14,6 +14,10 @@ public class WatchWorkers implements Watcher {
 
 	@Override
 	public void process(WatchedEvent ev) {
+		Helper.print("[Manger Worker watcher]");
+		Helper.print(ev.toString());
+
+
 		try{
 			zk.addWatch("/dist23/workers", this, AddWatchMode.PERSISTENT_RECURSIVE);
 		} catch(Exception e){ Helper.error(e);}

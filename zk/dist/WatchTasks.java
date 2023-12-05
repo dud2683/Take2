@@ -14,6 +14,8 @@ public class WatchTasks implements Watcher {
 
 	@Override
 	public void process(WatchedEvent ev) {
+		Helper.print("[Manger Task watcher]");
+		Helper.print(ev.toString());
 		try{
 			zk.addWatch("/dist23/tasks", this, AddWatchMode.PERSISTENT_RECURSIVE);
 		} catch(Exception e){Helper.error(e);}
