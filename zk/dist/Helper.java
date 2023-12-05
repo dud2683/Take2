@@ -4,6 +4,7 @@ public class Helper {
 	public static void print(Object a){
 		if(a == null){
 			print("a is NULL");
+			return;
 		}
 
 		if (((String) a).equals("[Manger Task watcher]")){
