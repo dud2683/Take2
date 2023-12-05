@@ -33,6 +33,8 @@ public class WatchWorkers implements Watcher {
 				if(next == null){
 					return;
 				}
+				String workerID = ev.getPath().substring(ev.getPath().indexOf("_w"));
+				Helper.print("Assigning task " + next + " to worker " + workerID);
 				wi.status = WorkerInfo.Status.Working;
 				wi.assigned = next;
 				zk.setData(ev.getPath(), Helper.toBytes(wi), -1);
@@ -49,7 +51,7 @@ public class WatchWorkers implements Watcher {
 			}
 			for(String task : tasks){
 				List<String> children = zk.getChildren("/dist23/tasks/" + task, false);
-				if(children.contains("working") || children.contains("result") || taskBanList.contains("/dist23/tasks/" + task))
+				if(children.size() != 0 || taskBanList.contains("/dist23/tasks/" + task))
 					continue;
 				return "/dist23/tasks/" + task;
 			}

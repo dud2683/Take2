@@ -36,7 +36,7 @@ public class WatchTasks implements Watcher {
 				wi.status = WorkerInfo.Status.Working;
 				zk.setData(next, Helper.toBytes(wi), -1);
 			}
-			if(ev.getType() == Event.EventType.NodeDataChanged){
+			else if(ev.getType() == Event.EventType.NodeDataChanged){
 				Object o = Helper.fromBytes(zk.getData(ev.getPath(), false, null));
 				if(o instanceof TaskInfo){
 					taskBanList.add(ev.getPath());
