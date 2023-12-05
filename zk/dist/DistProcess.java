@@ -53,7 +53,7 @@ public class DistProcess
 	void startProcess() throws IOException, UnknownHostException, KeeperException, InterruptedException
 	{
 		zk = new ZooKeeper(zkServer, 10000, null);
-		Thread.sleep(1000);
+		Thread.sleep(5000);
 		initalize();
 	}
 
