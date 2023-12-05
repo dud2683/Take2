@@ -32,6 +32,8 @@ public class WatchTasks implements Watcher {
 					return;
 				}
 				WorkerInfo wi  = new WorkerInfo();
+				String workerID = next.substring(next.indexOf("_w"));
+				Helper.print("Assigning task " + ev.getPath() + " to worker " + workerID);
 				wi.assigned = ev.getPath();
 				wi.status = WorkerInfo.Status.Working;
 				zk.setData(next, Helper.toBytes(wi), -1);
