@@ -50,6 +50,10 @@ public class Worker implements Watcher{
 					try{
 						zk.create(wi.assigned+"/working", null,ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 						dt.compute();
+
+						zk.setData(wi.assigned, Helper.toBytes(new TaskInfo()), -1);
+
+						zk.delete(wi.assigned+"/working",-1);
 						zk.create(wi.assigned+"/result", Helper.toBytes(dt),ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
 						WorkerInfo newWi = new WorkerInfo();
 						zk.setData(path, Helper.toBytes(newWi), -1);

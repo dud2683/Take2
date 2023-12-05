@@ -7,8 +7,10 @@ import java.util.List;
 
 public class WatchTasks implements Watcher {
 	private ZooKeeper zk;
+	private List<String> taskBanList;
 
-	public WatchTasks(ZooKeeper zk){
+	public WatchTasks(ZooKeeper zk, List<String> bl){
+		this.taskBanList = bl;
 		this.zk = zk;
 	}
 
@@ -22,7 +24,8 @@ public class WatchTasks implements Watcher {
 
 		try{
 			if(ev.getType() == Event.EventType.NodeCreated &&
-				!ev.getPath().contains("result"))
+				!ev.getPath().contains("result") &&
+				!ev.getPath().contains("working"))
 			{
 				String next = GetNextWorker();
 				if(next == null){
@@ -32,6 +35,12 @@ public class WatchTasks implements Watcher {
 				wi.assigned = ev.getPath();
 				wi.status = WorkerInfo.Status.Working;
 				zk.setData(next, Helper.toBytes(wi), -1);
+			}
+			if(ev.getType() == Event.EventType.NodeDataChanged){
+				Object o = Helper.fromBytes(zk.getData(ev.getPath(), false, null));
+				if(o instanceof TaskInfo){
+					taskBanList.add(ev.getPath());
+				}
 			}
 
 		} catch(Exception e){Helper.error(e);}

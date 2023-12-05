@@ -7,9 +7,11 @@ import java.util.List;
 
 public class WatchWorkers implements Watcher {
 	private ZooKeeper zk;
+	private List<String> taskBanList;
 
-	public WatchWorkers(ZooKeeper zk){
+	public WatchWorkers(ZooKeeper zk, List<String> bl){
 		this.zk = zk;
+		this.taskBanList = bl;
 	}
 
 	@Override
@@ -47,7 +49,7 @@ public class WatchWorkers implements Watcher {
 			}
 			for(String task : tasks){
 				List<String> children = zk.getChildren("/dist23/tasks/" + task, false);
-				if(children.contains("working") || children.contains("done"))
+				if(children.contains("working") || children.contains("result") || taskBanList.contains("/dist23/tasks/" + task))
 					continue;
 				return "/dist23/tasks/" + task;
 			}
