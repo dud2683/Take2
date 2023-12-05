@@ -4,10 +4,12 @@ public class Worker implements Watcher{
 	private ZooKeeper zk;
 	private int id;
 	private String path = null;
+	Thread working = null;
 
 	public Worker(ZooKeeper zk){
 		this.zk = zk;
 		boolean success = false;
+
 		id = 0;
 		WorkerInfo wi = new WorkerInfo();
 		while(!success){
@@ -66,7 +68,8 @@ public class Worker implements Watcher{
 						} catch(Exception ee) {Helper.error(ee);}
 					}
 				};
-				new Thread(task).start();
+				working = new Thread(task);
+				working.start();
 
 			}
 
