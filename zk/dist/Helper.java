@@ -2,6 +2,9 @@ import java.io.*;
 
 public class Helper {
 	public static void print(Object a){
+		if(a == null){
+			print("a is NULL");
+		}
 
 		if (((String) a).equals("[Manger Task watcher]")){
 			try{
