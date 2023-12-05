@@ -71,7 +71,7 @@ public class DistProcess
 	// Try to become the manager.
 	void runForManager(){
 		try{
-			zk.create("/dist23/manager", pinfo.getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+			zk.create("/dist23/manager", null, Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
 			isManager=true;
 			Helper.print("I am the manager");
 			this.manager = new Manager(zk);
