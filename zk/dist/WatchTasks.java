@@ -23,8 +23,8 @@ public class WatchTasks implements Watcher {
 
 		try{
 			if(ev.getType() == Event.EventType.NodeCreated &&
-				!ev.getPath().contains("result") &&
-				!ev.getPath().contains("working"))
+					(!ev.getPath().contains("result")) &&
+					(!ev.getPath().contains("working")))
 			{
 				Helper.print("[Manger Task watcher] Node created:");
 				Helper.print(ev.toString());
@@ -41,7 +41,7 @@ public class WatchTasks implements Watcher {
 				zk.setData(next, Helper.toBytes(wi), -1);
 			}
 			else if(ev.getType() == Event.EventType.NodeDataChanged){
-				Helper.print("[Manger Task watcher]");
+				Helper.print("[Manger Task watcher] NodeDataChanged");
 				Helper.print(ev.toString());
 
 				Object o = Helper.fromBytes(zk.getData(ev.getPath(), false, null));
