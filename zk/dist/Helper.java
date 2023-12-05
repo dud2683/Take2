@@ -8,7 +8,7 @@ public class Helper {
 	public static void error(Exception e){
 		print("------Error-------");
 		print(e.getMessage());
-		print(e.getStackTrace());
+		e.printStackTrace();
 		print("-------------------");
 	}
 

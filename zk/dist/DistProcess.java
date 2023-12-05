@@ -31,8 +31,8 @@ import org.apache.zookeeper.KeeperException.Code;
 //		you manage the code more modularly.
 //	REMEMBER !! Managers and Workers are also clients of ZK and the ZK client library is single thread - Watches & CallBacks should not be used for time consuming tasks.
 //		In particular, if the process is a worker, Watches & CallBacks should only be used to assign the "work" to a separate thread inside your program.
-public class DistProcess implements Watcher
-																		, AsyncCallback.ChildrenCallback
+public class DistProcess
+
 {
 	ZooKeeper zk;
 	String zkServer, pinfo;
@@ -52,9 +52,8 @@ public class DistProcess implements Watcher
 
 	void startProcess() throws IOException, UnknownHostException, KeeperException, InterruptedException
 	{
-		zk = new ZooKeeper(zkServer, 10000, this); //connect to ZK.
+		zk = new ZooKeeper(zkServer, 10000, null);
 	}
-
 
 
 	void initalize()
@@ -67,11 +66,6 @@ public class DistProcess implements Watcher
 		initalized = true;
 	}
 
-	// Manager fetching task znodes...
-	void getTasks()
-	{
-		zk.getChildren("/dist23/tasks", this, this, null);
-	}
 
 	// Try to become the manager.
 	void runForManager(){
@@ -119,7 +113,7 @@ public class DistProcess implements Watcher
 		{
 			// There has been changes to the children of the node.
 			// We are going to re-install the Watch as well as request for the list of the children.
-			getTasks();
+
 		}
 	}
 
