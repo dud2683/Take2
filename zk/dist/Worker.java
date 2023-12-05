@@ -40,7 +40,6 @@ public class Worker implements Watcher{
 				Helper.print("[Worker got a message]");
 				Helper.print(ev.toString());
 				WorkerInfo wi = (WorkerInfo) Helper.fromBytes(zk.getData(path, false, null));
-				Helper.printWorker(wi);
 				if(wi == null){
 					return;
 				}
