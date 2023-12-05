@@ -32,8 +32,13 @@ public class WatchWorkers implements Watcher {
 				Helper.print(ev.toString());
 
 				WorkerInfo wi = (WorkerInfo) Helper.fromBytes(zk.getData(ev.getPath(), false, null));
+				if(wi.status== WorkerInfo.Status.Working){
+					Helper.print("Worker is already working");
+					return;
+				}
 				String next = GetNextTask();
 				if(next == null){
+					Helper.print("No tasks to be done ATM");
 					return;
 				}
 				wi.status = WorkerInfo.Status.Working;
