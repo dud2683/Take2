@@ -2,29 +2,6 @@ import java.io.*;
 
 public class Helper {
 	public static void print(Object a){
-		if((a instanceof String)){
-			if (((String) a).equals("[Manger Task watcher]")){
-				try{
-					print("Exact");
-					throw new Exception();
-				} catch (Exception e){
-					error(e);
-				}
-			}
-			else if(((String) a).contains("[Manger Task watcher]")){
-				try{
-					print("almost");
-					System.out.println(a);
-					throw new Exception();
-				} catch (Exception e){
-					error(e);
-				}
-			}
-		}
-
-
-
-
 		System.out.println(a);
 	}
 
