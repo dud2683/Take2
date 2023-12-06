@@ -2,25 +2,23 @@ import org.apache.zookeeper.*;
 
 public class Worker implements Watcher{
 	private ZooKeeper zk;
-	private int id;
+
 	private String path = null;
 	Thread working = null;
 
 	public Worker(ZooKeeper zk){
 		this.zk = zk;
 		boolean success = false;
-
-		id = 0;
 		WorkerInfo wi = new WorkerInfo();
 		while(!success){
 			try{
-				path = "/dist23/workers/_w" + id;
-				zk.create(path, Helper.toBytes(wi), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+				path = "/dist23/workers/_w";
+				path = zk.create(path, Helper.toBytes(wi), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
 				zk.addWatch(path, this, AddWatchMode.PERSISTENT);
 				success = true;
 			}
-			catch(Exception ignored){
-				id++;
+			catch(Exception e){
+				Helper.error(e);
 			}
 		}
 	}
