@@ -1,10 +1,14 @@
 import org.apache.zookeeper.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Worker implements Watcher{
 	private ZooKeeper zk;
 
 	private String path = null;
 	Thread working = null;
+	List<Thread> ts = new ArrayList<>();
 
 	public Worker(ZooKeeper zk){
 		this.zk = zk;
@@ -27,7 +31,7 @@ public class Worker implements Watcher{
 	@Override
 	public void process(WatchedEvent ev) {
 
-
+		Runnable p = ()->{
 
 		try{
 			zk.addWatch(path, this, AddWatchMode.PERSISTENT);
@@ -76,5 +80,9 @@ public class Worker implements Watcher{
 
 		}
 		catch(Exception e){Helper.error(e);}
+	};
+		Thread temp = new Thread(p);
+		ts.add(temp);
+		temp.start();
 	}
 }

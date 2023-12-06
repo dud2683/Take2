@@ -3,11 +3,13 @@ import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WatchWorkers implements Watcher {
 	private ZooKeeper zk;
 	private List<String> taskBanList;
+	private List<Thread> t = new ArrayList<>();
 
 	public WatchWorkers(ZooKeeper zk, List<String> bl){
 		this.zk = zk;
@@ -17,7 +19,7 @@ public class WatchWorkers implements Watcher {
 	@Override
 	public void process(WatchedEvent ev) {
 
-
+		Runnable p = () ->{
 
 		try{
 			zk.addWatch("/dist23/workers", this, AddWatchMode.PERSISTENT_RECURSIVE);
@@ -47,6 +49,10 @@ public class WatchWorkers implements Watcher {
 			}
 
 		} catch(Exception e){ Helper.error(e);}
+	};
+		Thread temp = new Thread(p);
+		t.add(temp);
+		temp.start();
 	}
 
 	public String GetNextTask(){
